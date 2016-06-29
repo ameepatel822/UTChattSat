@@ -12,6 +12,7 @@ void loop() {
   
 float roll, pitch, head, temp, alt, pres;
 int roll_r, pitch_r, head_r, temp_r, alt_r, pres_r, SensorData[10], SensorConfig[3];
+char check;
 
 
 //GPSfixtime, GPSlat, GPSdir_N_S, GPSlong, GPSdir_E_W, GPSfixqual, GPSNumSat, HorizDilution, Alt, GeoidHeight, DGPSUpdateTime, DGPSStationID
@@ -28,8 +29,9 @@ float tempres = 0.3515625;
 float altres = 0.137;
 float presres = 4.296;
 
-  Serial.println("\n\n\nStarting int receive");
-  while(!Serial.available());
+ // Serial.println("\n\n\nStarting int receive");
+  //while(!Serial.available());
+  //while(!sensorcont.available());
   if (Serial.available()){
 
     for (int i = 0; i<3 ; i++){
@@ -44,7 +46,8 @@ float presres = 4.296;
     
   }
   if (sensorcont.available()){
-
+    check = sensorcont.read();
+    if (check = '$'){
     for (int j = 0; j<10 ; j++){
       SensorData[j] = sensorcont.parseInt();      // Read Data Word form Sensor Controller, Digital 4 pin
     }
@@ -53,6 +56,7 @@ float presres = 4.296;
       Serial.print(SensorData[j]);                // Write Data Word to XBee, Digital 1 pin       
       if (j < 9 ) Serial.print(",");
       else Serial.println(" ");
+    }
     }
     
   }
@@ -117,6 +121,6 @@ float presres = 4.296;
 //
 //    Serial.println("---------------------");
 //    
-    delay(100);
+   // delay(100);
 
 }
